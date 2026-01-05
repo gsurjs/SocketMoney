@@ -1,0 +1,21 @@
+# Ignore object files generated during compilation
+*.o
+
+# Ignore the compiled executable
+socketMoney
+pocketledger
+a.out
+
+# Ignore local db files
+*.db
+*.sqlite
+*.sqlite3
+
+# System and Editor Junk
+.DS_Store
+
+# VS Code settings
+.vscode/
+
+# Vim swap files
+*.swp
