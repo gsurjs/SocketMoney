@@ -50,7 +50,7 @@ void add_expense(sqlite3 *db) {
     printf("\n --- Add New Transaction --- \n");
 
     // adding buffer safety, using %10s limit to prevent buffer overflows
-    printf("Date (YYY-MM-DD): ");
+    printf("Date (YYYY-MM-DD): ");
     scanf("%10s", date);
 
     printf("\nCategory (i.e. Coffee, Groceries): ");
