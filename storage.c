@@ -74,7 +74,7 @@ void add_expense(sqlite3 *db) {
     // prepare statement by compiling sql to byte-code
     int rc = sqlite3_prepare_v2(db, sql, -1, &stmt, 0);
     if (rc != SQLITE_OK) {
-        fprint(stderr, "ERROR: Failed to prepare statement: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "ERROR: Failed to prepare statement: %s\n", sqlite3_errmsg(db));
         return;
     }
     // bind user input to prepared statement parameters
