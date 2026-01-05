@@ -44,7 +44,7 @@ void add_expense(sqlite3 *db) {
     // input buffers with specific sizes
     char date[11]; // includes null terminator
     char category[50];
-    double amount;
+    double amount = 0.0; // init amount 
     char description[255];
 
     printf("\n --- Add New Transaction --- \n");
@@ -58,6 +58,11 @@ void add_expense(sqlite3 *db) {
 
     printf("\nTransaction Amount: ");
     scanf("%lf", &amount);
+    // Check if scanf returns 1 for successful read
+    if (scanf("%lf", &amount) != 1) {
+        printf("Invalid amount entered. Setting to 0.0\n");
+        while ((getchar()) != '\n'); // Clear the bad input from buffer
+    }
 
     // clean newline char from buffer before calling fgets
     while ((getchar() != '\n'));
@@ -123,13 +128,17 @@ void view_expenses(sqlite3 *db) {
 
 void view_total(sqlite3 *db) {
     sqlite3_stmt *stmt;
-    // aggregate fnction for letting sql engine to the sum
+    // aggregate function for letting sql engine to the sum
     char *sql = "SELECT SUM(amount) FROM expenses;";
-    if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) {
+    if (sqlite3_prepare_v2(db, sql, -1, &stmt, 0) == SQLITE_OK) {
+        
         if (sqlite3_step(stmt) == SQLITE_ROW) {
             double total = sqlite3_column_double(stmt, 0);
             printf("\n>> Total Lifetime Spending: $%.2f\n", total);
         }
+    } else {
+        // print error if it actually fails
+        fprintf(stderr, "Failed to calculate total: %s\n", sqlite3_errmsg(db));
     }
     sqlite3_finalize(stmt); // free resources
 }
